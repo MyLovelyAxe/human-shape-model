@@ -1,0 +1,43 @@
+<launch>
+
+    <rosparam file="$(find box_human_description)/config/E_humanbot_controllers.yaml" command="load"/>
+
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/humanbot"
+    args="joint_state_controller
+            0_1_joint_position_controller 
+            0_2_joint_position_controller 
+            0_3_joint_position_controller 
+            1_1_joint_position_controller 
+            2_1_joint_position_controller 
+            3_1_joint_position_controller 
+            4_1_joint_position_controller 
+            1_2_joint_position_controller 
+            2_2_joint_position_controller 
+            3_2_joint_position_controller 
+            4_2_joint_position_controller 
+            1_3_joint_position_controller 
+            2_3_joint_position_controller 
+            3_3_joint_position_controller 
+            4_3_joint_position_controller 
+            1_4_joint_position_controller 
+            2_4_joint_position_controller 
+            3_4_joint_position_controller 
+            4_4_joint_position_controller 
+            1_5_joint_position_controller 
+            2_5_joint_position_controller 
+            3_5_joint_position_controller 
+            4_5_joint_position_controller 
+            1_6_joint_position_controller 
+            2_6_joint_position_controller 
+            3_6_joint_position_controller 
+            4_6_joint_position_controller 
+            1_7_joint_position_controller 
+            2_7_joint_position_controller 
+            3_7_joint_position_controller 
+            4_7_joint_position_controller" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <remap from="/joint_states" to="/humanbot/joint_states" />
+    </node>
+
+</launch>

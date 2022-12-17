@@ -1,0 +1,71 @@
+{
+  "keys": {},
+  "groups": {
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'01d9d0cb00020000000001160000006c000006b1000003fa0000011600000091000006b1000003fa00000000000000000780')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "       l                 "
+        },
+        "state": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff00000000fd00000001000000030000059c0000033cfc0100000001fb00000058007200710074005f007000750062006c00690073006800650072005f005f005000750062006c00690073006800650072005f005f0031005f005f005000750062006c0069007300680065007200570069006400670065007401000000000000059c0000022900ffffff0000059c0000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "                 Xrqt_publisher__Publisher__1__PublisherWidget                            6MinimizedDockWidgetsToolbar        "
+        }
+      },
+      "groups": {
+        "toolbar_areas": {
+          "keys": {
+            "MinimizedDockWidgetsToolbar": {
+              "repr": "8",
+              "type": "repr"
+            }
+          },
+          "groups": {}
+        }
+      }
+    },
+    "pluginmanager": {
+      "keys": {
+        "running-plugins": {
+          "repr": "{'rqt_publisher/Publisher': [1]}",
+          "type": "repr"
+        }
+      },
+      "groups": {
+        "plugin__rqt_publisher__Publisher__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__PublisherWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Message Publisher'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "publishers": {
+                  "repr": "\"[{'topic_name': '/humanbot/0_1_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 3, 'counter': 2106, 'expressions': {'/humanbot/0_1_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/0_2_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 4, 'counter': 2092, 'expressions': {'/humanbot/0_2_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/0_3_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 5, 'counter': 2021, 'expressions': {'/humanbot/0_3_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/1_1_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 6, 'counter': 2035, 'expressions': {'/humanbot/1_1_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/1_2_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 7, 'counter': 2004, 'expressions': {'/humanbot/1_2_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/1_3_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 8, 'counter': 1977, 'expressions': {'/humanbot/1_3_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/1_4_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 9, 'counter': 1914, 'expressions': {'/humanbot/1_4_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/1_5_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 10, 'counter': 1897, 'expressions': {'/humanbot/1_5_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/1_6_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 11, 'counter': 1881, 'expressions': {'/humanbot/1_6_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/1_7_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 12, 'counter': 1863, 'expressions': {'/humanbot/1_7_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/2_1_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 13, 'counter': 1847, 'expressions': {'/humanbot/2_1_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/2_2_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 14, 'counter': 1827, 'expressions': {'/humanbot/2_2_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/2_3_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 15, 'counter': 1807, 'expressions': {'/humanbot/2_3_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/2_4_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 16, 'counter': 1788, 'expressions': {'/humanbot/2_4_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/2_5_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 17, 'counter': 1774, 'expressions': {'/humanbot/2_5_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/2_6_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 18, 'counter': 1747, 'expressions': {'/humanbot/2_6_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/2_7_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 19, 'counter': 1732, 'expressions': {'/humanbot/2_7_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/3_1_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 20, 'counter': 1715, 'expressions': {'/humanbot/3_1_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/3_2_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 21, 'counter': 1696, 'expressions': {'/humanbot/3_2_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/3_3_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 22, 'counter': 1681, 'expressions': {'/humanbot/3_3_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/3_4_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 23, 'counter': 1665, 'expressions': {'/humanbot/3_4_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/3_5_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 24, 'counter': 1597, 'expressions': {'/humanbot/3_5_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/3_6_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 25, 'counter': 1583, 'expressions': {'/humanbot/3_6_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/3_7_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 26, 'counter': 1614, 'expressions': {'/humanbot/3_7_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/4_1_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 27, 'counter': 1500, 'expressions': {'/humanbot/4_1_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/4_2_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 28, 'counter': 1480, 'expressions': {'/humanbot/4_2_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/4_3_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 29, 'counter': 1427, 'expressions': {'/humanbot/4_3_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/4_4_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 30, 'counter': 1408, 'expressions': {'/humanbot/4_4_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/4_5_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 31, 'counter': 1390, 'expressions': {'/humanbot/4_5_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/4_6_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 32, 'counter': 1365, 'expressions': {'/humanbot/4_6_joint_position_controller/command/data': 'sin(i/100)'}}, {'topic_name': '/humanbot/4_7_joint_position_controller/command', 'type_name': 'std_msgs/Float64', 'rate': 50.0, 'enabled': False, 'publisher_id': 33, 'counter': 1343, 'expressions': {'/humanbot/4_7_joint_position_controller/command/data': 'sin(i/100)'}}]\"",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}

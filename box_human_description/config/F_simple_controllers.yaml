@@ -1,0 +1,170 @@
+humanbot:
+
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  # torso
+
+  0_1_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: torso_neck_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  0_2_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: torso_waist_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  0_3_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: waist_hip_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  # left arm
+
+  1_1_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: torso_leftshoulder_up_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  1_2_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_shoulder_up_forward_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  1_3_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_shoulderforward_upperarm_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  1_4_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_upperarm_elbow_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  1_5_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_elbow_lowerarm_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  1_6_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_lowerarm_wrist_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  1_7_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_wrist_hand_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  # right arm
+
+  2_1_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: torso_rightshoulder_up_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  2_2_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_shoulder_up_forward_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  2_3_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_shoulderforward_upperarm_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  2_4_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_upperarm_elbow_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  2_5_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_elbow_lowerarm_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  2_6_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_lowerarm_wrist_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  2_7_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_wrist_hand_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  # left leg
+  
+  3_1_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: hip_lefthipball_up_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  3_2_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_hipball_up_forward_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  3_3_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_hipballforward_upperleg_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  3_4_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_upperleg_knee_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  3_5_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_knee_lowerleg_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  3_6_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_lowerleg_ankle_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  3_7_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_ankle_foot_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  # right leg
+
+  4_1_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: hip_righthipball_up_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  4_2_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_hipball_up_forward_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  4_3_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_hipballforward_upperleg_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  4_4_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_upperleg_knee_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  4_5_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_knee_lowerleg_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  4_6_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_lowerleg_ankle_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}
+
+  4_7_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_ankle_foot_joint
+    pid: {p: 1.0, i: 1.0, d: 0.0}

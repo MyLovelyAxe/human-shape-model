@@ -1,0 +1,296 @@
+<?xml version="1.0"?>
+<robot name="humanbot">
+
+<!-- define materials -->
+
+    <material name="red">
+        <color rgba="0.8 0 0 1"/>
+    </material>
+
+    <material name="torso_red">
+        <color rgba="0.8 0 0 0.6"/>
+    </material>
+
+    <material name="green">
+        <color rgba="0 0.8 0 1"/>
+    </material>
+
+    <material name="blue">
+        <color rgba="0 0 0.8 1"/>
+    </material>
+
+    <material name="grey">
+        <color rgba="0.7 0.7 0.7 1"/>
+    </material>
+
+<!-- define links and joints -->
+
+<!-- define base_link -->
+
+    <link name="base_link">
+
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.005"/>
+            <geometry>
+                <box size="0.01 0.01 0.01"/>
+            </geometry>
+            <material name="grey"/>
+        </visual>
+
+    </link>
+
+<!-- define torso_link -->
+
+    <link name="torso_link">
+
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.04"/>
+            <geometry>
+                <box size="0.05 0.08 0.08"/>
+            </geometry>
+            <material name="torso_red"/>
+        </visual>
+
+    </link>
+
+<!-- define base_torso_joint -->
+
+    <joint name="base_torso_joint" type="fixed">
+
+        <parent link="base_link"/>
+        <child link="torso_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+
+    </joint>
+
+<!-- define neck_link -->
+
+    <link name="neck_link">
+
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.0075"/>
+            <geometry>
+                <cylinder length="0.015" radius="0.015"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+
+    </link>
+
+<!-- define torso_neck_joint -->
+
+    <joint name="torso_neck_joint" type="revolute">
+
+        <parent link="torso_link"/>
+        <child link="neck_link"/>
+        <origin xyz="0 0 0.08" rpy="0 0 0"/>
+        <limit lower="-1.5" upper="1.5" effort="1.0" velocity="0.005"/>
+        <axis xyz="0 0 1"/>
+
+    </joint>
+
+<!-- define head_link -->
+
+    <link name="head_link">
+
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.03"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+
+    </link>
+
+<!-- define neck_head_joint -->
+
+    <joint name="neck_head_joint" type="fixed">
+
+        <parent link="neck_link"/>
+        <child link="head_link"/>
+        <origin xyz="0 0 0.04" rpy="0 0 0"/>
+
+    </joint>
+
+<!-- define right_shoulder_up_link -->
+
+    <link name="right_shoulder_up_link">
+
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.02" radius="0.012"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+
+    </link>
+
+<!-- define torso_rightshoulderup_joint -->
+
+    <joint name="torso_rightshoulderup_joint" type="revolute">
+
+        <parent link="torso_link"/>
+        <child link="right_shoulder_up_link"/>
+        <origin xyz="0 0.04 0.07" rpy="0 1.57 0"/>
+        <limit lower="0" upper="1.5" effort="1.0" velocity="0.005"/>
+        <axis xyz="0 0 1"/>
+
+    </joint>
+
+<!-- define right_shoulder_forward_link -->
+
+    <link name="right_shoulder_forward_link">
+
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.02" radius="0.01"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+
+    </link>
+
+<!-- define rightshoulder_up_forwar_joint -->
+
+    <joint name="rightshoulder_up_forwar_joint" type="revolute">
+
+        <parent link="right_shoulder_up_link"/>
+        <child link="right_shoulder_forward_link"/>
+        <origin xyz="0.015 0.012 0" rpy="1.57 0 0"/>
+        <limit lower="-1.5" upper="3" effort="1.0" velocity="0.005"/>    
+        <axis xyz="0 0 1"/>   
+
+    </joint>
+
+<!-- define right_upperarm_link -->
+
+    <link name="right_upperarm_link">
+
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.04"/>
+            <geometry>
+                <cylinder length="0.08" radius="0.01"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+
+    </link>
+
+<!-- define right_shoulderforward_upperarm_joint -->
+
+    <joint name="right_shoulderforward_upperarm_joint" type="revolute">
+
+        <parent link="right_shoulder_forward_link"/>
+        <child link="right_upperarm_link"/>
+        <origin xyz="0 0 0" rpy="0 1.57 0"/>
+        <limit lower="-1.5" upper="0.5" effort="1.0" velocity="0.005"/>
+        <axis xyz="0 0 1"/>
+
+    </joint>
+
+<!-- define right_elbow_link -->
+
+    <link name="right_elbow_link">
+
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+
+    </link>
+
+<!-- define right_elbow_upperarm_joint -->
+
+    <joint name="right_elbow_upperarm_joint" type="revolute">
+
+        <parent link="right_upperarm_link"/>
+        <child link="right_elbow_link"/>
+        <origin xyz="0 0 0.085" rpy="0 0 0"/>
+        <limit lower="-3" upper="0" effort="1.0" velocity="0.005"/>
+        <axis xyz="1 0 0"/>
+
+    </joint>
+
+<!-- define right_lowerarm_link -->
+
+    <link name="right_lowerarm_link">
+
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.04"/>
+            <geometry>
+                <cylinder length="0.08" radius="0.01"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+
+    </link>
+
+<!-- define right_elbow_lowerarm_joint -->
+
+    <joint name="right_elbow_lowerarm_joint" type="revolute">
+
+        <parent link="right_elbow_link"/>
+        <child link="right_lowerarm_link"/>
+        <origin xyz="0 0 0.005" rpy="0 0 0"/>
+        <limit lower="-0.2" upper="1.57" effort="1.0" velocity="0.005"/>
+        <axis xyz="0 0 1"/>
+
+    </joint>
+
+<!-- define right_wrist_link -->
+
+    <link name="right_wrist_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+    </link>
+
+<!-- define right_lowerarm_wrist_link -->
+
+    <joint name="right_lowerarm_wrist_link" type="revolute">
+
+        <parent link="right_lowerarm_link"/>
+        <child link="right_wrist_link"/>
+        <origin xyz="0 0 0.085" rpy="0 0 0"/>
+        <limit lower="-0.5" upper="0.5" effort="1.0" velocity="0.005"/>
+        <axis xyz="1 0 0"/>
+
+    </joint>
+
+<!-- define right_hand_link -->
+
+    <link name="right_hand_link">
+
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.015"/>
+            <geometry>
+                <box size="0.03 0.015 0.04"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+
+    </link>
+
+<!-- define right_lowerarm_hand_joint -->
+
+    <joint name="right_wrist_hand_joint" type="revolute">
+
+        <parent link="right_wrist_link"/>
+        <child link="right_hand_link"/>
+        <origin xyz="0 0 0.01" rpy="0 0 1.57"/>
+        <limit lower="-1.5" upper="1.5" effort="1.0" velocity="0.005"/>
+        <axis xyz="1 0 0"/>
+
+    </joint>
+
+</robot>

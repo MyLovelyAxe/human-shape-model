@@ -1,0 +1,16 @@
+<launch>
+
+    <!-- USE: roslaunch box_human_description A_humanbot_1arm_urdf.launch model:='$(find box_human_description)/urdf/A_humanbot_1arm.urdf' -->
+    <arg name="model" default=""/>
+
+    <param name="robot_description" command="cat $(arg model)"/>
+
+    <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/> -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+    <!-- <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/> -->
+    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find box_human_description)/rviz_config/humanbot.rviz"/>
+
+</launch>

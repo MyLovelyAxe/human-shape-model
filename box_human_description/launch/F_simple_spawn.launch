@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+    <include file="$(find box_human_description)/launch/spawner_humanbot_xacro.launch">
+
+        <arg name="x" default="0.0"/>
+        <arg name="y" default="0.0"/>
+        <arg name="z" default="0.0"/>
+        <arg name="robot_name" default="humanbot"/>
+        <arg name="xacro_file_path" default="$(find box_human_description)/robot/F_simple.xacro"/>
+
+    </include>
+
+    <include file="$(find box_human_description)/launch/controllers_simple_yaml.launch" />
+
+</launch>

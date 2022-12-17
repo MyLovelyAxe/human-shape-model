@@ -1,0 +1,15 @@
+<launch>
+
+    <!-- USE: roslaunch box_human_description D_humanbot_4limb_col_iner_xacro_rviz.launch -->
+
+    <arg name="xacro_file_path" default="$(find box_human_description)/robot/D_humanbot_4limb_col_iner.xacro" />
+
+    <param name="robot_description" command="$(find xacro)/xacro $(arg xacro_file_path)" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    
+    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find box_human_description)/rviz_config/humanbot_xacro.rviz" />
+
+</launch>

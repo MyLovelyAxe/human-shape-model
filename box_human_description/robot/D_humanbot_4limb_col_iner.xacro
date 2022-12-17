@@ -1,0 +1,924 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="humanbot">
+
+    <!-- define materials -->
+
+    <xacro:macro name="material_visual_red" params="">
+        <material name="red">
+            <color rgba="0.8 0 0 1"/>
+        </material>
+    </xacro:macro>
+
+    <xacro:macro name="material_visual_torso_red" params="">
+        <material name="torso_red">
+            <color rgba="0.8 0 0 0.6"/>
+        </material>
+    </xacro:macro>
+
+    <xacro:macro name="material_visual_green" params="">
+        <material name="green">
+            <color rgba="0 0.8 0 1"/>
+        </material>
+    </xacro:macro>
+
+    <xacro:macro name="material_visual_blue" params="">
+        <material name="blue">
+            <color rgba="0 0 0.8 1"/>
+        </material>
+    </xacro:macro>
+
+    <xacro:macro name="material_visual_grey" params="">
+        <material name="grey">
+            <color rgba="0.7 0.7 0.7 1"/>
+        </material>
+    </xacro:macro>
+
+    <!-- define properties -->
+
+    <xacro:property name="gazebo_kp" value="1000.0"/>
+    <xacro:property name="gazebo_kd" value="1000.0"/>
+    <xacro:property name="gazebo_mu1" value="10.0"/>
+    <xacro:property name="gazebo_mu2" value="10.0"/>
+
+    <!-- define inertia calculation -->
+
+    <xacro:macro name="cylinder_inertia" params="mass r h">
+        <inertia ixx="${(mass / 12.0) * (3*r*r + h*h)}" ixy="0" ixz="0"
+                 iyy="${(mass / 12.0) * (3*r*r + h*h)}" iyz="0"
+                 izz="${(mass*r*r) / 2.0}" />
+    </xacro:macro>
+
+    <xacro:macro name="box_inertia" params="mass x y z">
+        <inertia ixx="${mass * (y*y + z*z) / 12.0}" ixy="0" ixz="0"
+                 iyy="${mass * (x*x + z*z) / 12.0}" iyz="0"
+                 izz="${mass * (x*x + y*y) / 12.0}" />
+    </xacro:macro>
+
+    <xacro:macro name="sphere_inertia" params="mass r">
+        <inertia ixx="${(2 * mass * r * r / 5.0)}" ixy="0" ixz="0"
+                 iyy="${(2 * mass * r * r / 5.0)}" iyz="0"
+                 izz="${(2 * mass * r * r / 5.0)}" />
+    </xacro:macro>
+
+    <!-- define torso -->
+
+    <xacro:macro name="torso_part" params="">
+
+        <!-- define base_link -->
+
+        <link name="base_link">
+        
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0.005"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0.005"/>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+                <xacro:material_visual_grey />
+            </visual>
+
+        </link>
+
+
+        <!-- define torso_link -->
+
+        <link name="torso_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 0.04"/>
+                <mass value="0.04"/>
+                <xacro:box_inertia mass="0.04" x="0.05" y="0.08" z="0.08"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0.04"/>
+                <geometry>
+                    <box size="0.05 0.08 0.08"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0.04"/>
+                <geometry>
+                    <box size="0.05 0.08 0.08"/>
+                </geometry>
+                <xacro:material_visual_torso_red />
+            </visual>
+
+        </link>
+
+        <gazebo reference="torso_link">
+            <mu1>${gazebo_mu1}</mu1>
+            <mu2>${gazebo_mu2}</mu2>
+            <material>Gazebo/Red</material>
+        </gazebo>
+
+        <!-- define base_torso_joint -->
+
+        <joint name="base_torso_joint" type="fixed">
+
+            <parent link="base_link"/>
+            <child link="torso_link"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+
+        </joint>
+
+        <!-- define neck_link -->
+
+        <link name="neck_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 0.0075"/>
+                <mass value="0.001"/>
+                <xacro:cylinder_inertia mass="0.001" r="0.015" h="0.015"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0.0075"/>
+                <geometry>
+                    <cylinder length="0.015" radius="0.015"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0.0075"/>
+                <geometry>
+                    <cylinder length="0.015" radius="0.015"/>
+                </geometry>
+                <xacro:material_visual_green />
+            </visual>
+
+        </link>
+
+        <gazebo reference="neck_link">
+            <kp>${gazebo_kp}</kp>
+            <kd>${gazebo_kd}</kd>
+            <mu1>${gazebo_mu1}</mu1>
+            <mu2>${gazebo_mu2}</mu2>
+            <material>Gazebo/Green</material>
+        </gazebo>
+
+        <!-- define torso_neck_joint -->
+
+        <joint name="torso_neck_joint" type="revolute">
+
+            <parent link="torso_link"/>
+            <child link="neck_link"/>
+            <origin xyz="0 0 0.08" rpy="0 0 0"/>
+            <limit lower="-1.5" upper="1.5" effort="1.0" velocity="0.005"/>
+            <axis xyz="0 0 1"/>
+
+        </joint>
+
+        <!-- define head_link -->
+
+        <link name="head_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <mass value="0.01"/>
+                <xacro:sphere_inertia mass="0.01" r="0.03"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <sphere radius="0.03"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <sphere radius="0.03"/>
+                </geometry>
+                <xacro:material_visual_red />
+            </visual>
+
+        </link>
+
+        <gazebo reference="head_link">
+            <kp>${gazebo_kp}</kp>
+            <kd>${gazebo_kd}</kd>
+            <mu1>${gazebo_mu1}</mu1>
+            <mu2>${gazebo_mu2}</mu2>
+            <material>Gazebo/Red</material>
+        </gazebo>
+
+        <!-- define neck_head_joint -->
+
+        <joint name="neck_head_joint" type="fixed">
+
+            <parent link="neck_link"/>
+            <child link="head_link"/>
+            <origin xyz="0 0 0.04" rpy="0 0 0"/>
+
+        </joint>
+
+        <!-- define waist link -->
+
+        <link name="waist_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <mass value="0.01"/>
+                <xacro:sphere_inertia mass="0.01" r="0.025"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <sphere radius="0.025"/>
+                </geometry>               
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <sphere radius="0.025"/>
+                </geometry>
+                <xacro:material_visual_blue />                
+            </visual>
+
+        </link>
+
+        <gazebo reference="waist_link">
+            <kp>${gazebo_kp}</kp>
+            <kd>${gazebo_kd}</kd>
+            <mu1>${gazebo_mu1}</mu1>
+            <mu2>${gazebo_mu2}</mu2>
+            <material>Gazebo/Blue</material>
+        </gazebo>
+
+        <!-- define torso_waist_joint -->
+
+        <joint name="torso_waist_joint" type="revolute">
+
+            <parent link="torso_link"/>
+            <child link="waist_link"/>
+            <origin xyz="0 0 -0.01" rpy="0 0 0"/>
+            <limit lower="-1.3" upper="1.3" effort="1.0" velocity="0.005"/>
+            <axis xyz="0 0 1"/>
+
+        </joint>
+
+        <!-- define hip_link -->
+
+        <link name="hip_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 -0.03"/>
+                <mass value="0.02"/>
+                <xacro:box_inertia mass="0.02" x="0.05" y="0.08" z="0.04"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 -0.03"/>
+                <geometry>
+                    <box size="0.05 0.08 0.04"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 -0.03"/>
+                <geometry>
+                    <box size="0.05 0.08 0.04"/>
+                </geometry>
+                <xacro:material_visual_red />
+            </visual>
+        
+        </link>
+
+        <!-- define waist_hip_joint -->
+
+        <joint name="waist_hip_joint" type="revolute">
+
+            <parent link="waist_link"/>
+            <child link="hip_link"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <limit lower="-1.3" upper="0.2" effort="1.0" velocity="0.005"/>
+            <axis xyz="0 1 0"/>
+
+        </joint>
+
+    </xacro:macro>
+
+    <!-- define top_arthrosis up part -->
+
+    <xacro:macro name="top_arthrosis_up_part" params="position toparthrosis parentlink *origin">
+
+        <!-- define top_arthrosis_up_link -->
+
+        <link name="${position}_${toparthrosis}_up_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <mass value="0.003"/>
+                <xacro:cylinder_inertia mass="0.003" r="0.012" h="0.02"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder length="0.02" radius="0.012"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder length="0.02" radius="0.012"/>
+                </geometry>
+                <xacro:material_visual_green />
+            </visual>
+
+        </link>
+
+        <gazebo reference="${position}_${toparthrosis}_up_link">
+            <kp>${gazebo_kp}</kp>
+            <kd>${gazebo_kd}</kd>
+            <mu1>${gazebo_mu1}</mu1>
+            <mu2>${gazebo_mu2}</mu2>
+            <material>Gazebo/Green</material>
+        </gazebo>
+
+        <!-- define torso_toparthrosis_joint -->
+
+        <joint name="${parentlink}_${position}${toparthrosis}_up_joint" type="revolute">
+
+            <parent link="${parentlink}_link"/>
+            <child link="${position}_${toparthrosis}_up_link"/>
+            <xacro:insert_block name="origin"/>
+            <limit lower="0" upper="1.5" effort="1.0" velocity="0.005"/>
+            <axis xyz="0 0 1"/>
+
+        </joint>
+
+    </xacro:macro>
+
+    <!-- define top arthrosis forward part -->
+
+    <xacro:macro name="top_arthrosis_forward_part" params="position toparthrosis lower_limit upper_limit *origin">
+
+        <!-- define top_arthrosis_forward_link -->
+
+        <link name="${position}_${toparthrosis}_forward_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <mass value="0.002"/>
+                <xacro:cylinder_inertia mass="0.002" r="0.01" h="0.02"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder length="0.02" radius="0.01"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder length="0.02" radius="0.01"/>
+                </geometry>
+                <xacro:material_visual_blue />
+            </visual>
+
+        </link>
+
+        <gazebo reference="${position}_${toparthrosis}_forward_link">
+            <kp>${gazebo_kp}</kp>
+            <kd>${gazebo_kd}</kd>
+            <mu1>${gazebo_mu1}</mu1>
+            <mu2>${gazebo_mu2}</mu2>
+            <material>Gazebo/Blue</material>
+        </gazebo>
+
+        <!-- define top_arthrosis_up_forwar_joint -->
+
+        <joint name="${position}_${toparthrosis}_up_forwar_joint" type="revolute">
+
+            <parent link="${position}_${toparthrosis}_up_link"/>
+            <child link="${position}_${toparthrosis}_forward_link"/>
+            <xacro:insert_block name="origin" />
+            <limit lower="${lower_limit}" upper="${upper_limit}" effort="1.0" velocity="0.005"/>    
+            <axis xyz="0 0 1"/>   
+
+        </joint>
+
+    </xacro:macro>
+
+    <!-- define upperlimb part -->
+
+    <xacro:macro name="upperlimb_part" params="position toparthrosis limb visual_z limb_mag *origin">
+
+        <!-- define upperlimb_link -->
+
+        <link name="${position}_upper${limb}_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 ${visual_z}"/>
+                <mass value="0.008"/>
+                <xacro:cylinder_inertia mass="0.008" r="${limb_mag}" h="0.08"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 ${visual_z}"/>
+                <geometry>
+                    <cylinder length="0.08" radius="${limb_mag}"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 ${visual_z}"/>
+                <geometry>
+                    <cylinder length="0.08" radius="${limb_mag}"/>
+                </geometry>
+                <xacro:material_visual_red />
+            </visual>
+
+        </link>
+
+        <gazebo reference="${position}_upper${limb}_link">
+            <kp>${gazebo_kp}</kp>
+            <kd>${gazebo_kd}</kd>
+            <mu1>${gazebo_mu1}</mu1>
+            <mu2>${gazebo_mu2}</mu2>
+            <material>Gazebo/Red</material>
+        </gazebo>
+
+        <!-- define toparthrosis_forward_upperlimb_joint -->
+
+        <joint name="${position}_${toparthrosis}forward_upper${limb}_joint" type="revolute">
+
+            <parent link="${position}_${toparthrosis}_forward_link"/>
+            <child link="${position}_upper${limb}_link"/>
+            <xacro:insert_block name="origin" />
+            <limit lower="-1.5" upper="0.5" effort="1.0" velocity="0.005"/>
+            <axis xyz="0 0 1"/>
+
+        </joint>
+
+    </xacro:macro>
+
+    <!-- define upper arthrosis part -->
+
+    <xacro:macro name="upper_arthrosis_part" params="position upperarthrosis limb arth_size lower_limit upper_limit *origin">
+
+        <!-- define upper arthrosis link -->
+
+        <link name="${position}_${upperarthrosis}_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <mass value="0.001"/>
+                <xacro:sphere_inertia mass="0.001" r="${arth_size}"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <sphere radius="${arth_size}"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <sphere radius="${arth_size}"/>
+                </geometry>
+                <xacro:material_visual_green />
+            </visual>
+
+        </link>
+
+        <gazebo reference="${position}_${upperarthrosis}_link">
+            <kp>${gazebo_kp}</kp>
+            <kd>${gazebo_kd}</kd>
+            <mu1>${gazebo_mu1}</mu1>
+            <mu2>${gazebo_mu2}</mu2>
+            <material>Gazebo/Green</material>
+        </gazebo>
+
+        <!-- define upperlimb upperarthrosis joint -->
+
+        <joint name="${position}_upper${limb}_${upperarthrosis}_joint" type="revolute">
+
+            <parent link="${position}_upper${limb}_link"/>
+            <child link="${position}_${upperarthrosis}_link"/>
+            <xacro:insert_block name="origin" />
+            <limit lower="${lower_limit}" upper="${upper_limit}" effort="1.0" velocity="0.005"/>
+            <axis xyz="1 0 0"/>
+
+        </joint>
+
+    </xacro:macro>
+
+    <!-- define lowerlimb part -->
+
+    <xacro:macro name="lowerlimb_part" params="position arthrosis limb visual_z limb_mag *origin">
+
+        <!-- define lowerlimb link -->
+
+        <link name="${position}_lower${limb}_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 ${visual_z}"/>
+                <mass value="0.008"/>
+                <xacro:cylinder_inertia mass="0.008" r="${limb_mag}" h="0.08"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 ${visual_z}"/>
+                <geometry>
+                    <cylinder length="0.08" radius="${limb_mag}"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 ${visual_z}"/>
+                <geometry>
+                    <cylinder length="0.08" radius="${limb_mag}"/>
+                </geometry>
+                <xacro:material_visual_red/>
+            </visual>
+
+        </link>
+
+        <gazebo reference="${position}_lower${limb}_link">
+            <kp>${gazebo_kp}</kp>
+            <kd>${gazebo_kd}</kd>
+            <mu1>${gazebo_mu1}</mu1>
+            <mu2>${gazebo_mu2}</mu2>
+            <material>Gazebo/Red</material>
+        </gazebo>
+
+        <!-- define arthrosis lowerlimb joint -->
+
+        <joint name="${position}_${arthrosis}_lower${limb}_joint" type="revolute">
+
+            <parent link="${position}_${arthrosis}_link"/>
+            <child link="${position}_lower${limb}_link"/>
+            <xacro:insert_block name="origin" />
+            <limit lower="-0.2" upper="1.57" effort="1.0" velocity="0.005"/>
+            <axis xyz="0 0 1"/>
+
+        </joint>
+
+    </xacro:macro>
+
+    <!-- define lower arthrosis part -->
+
+    <xacro:macro name="lower_arthrosis_part" params="position lowerarthrosis limb *origin">
+
+        <!-- define lower arthrosis link -->
+
+        <link name="${position}_${lowerarthrosis}_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <mass value="0.001"/>
+                <xacro:sphere_inertia mass="0.001" r="0.01"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <sphere radius="0.01"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <sphere radius="0.01"/>
+                </geometry>
+                <xacro:material_visual_blue />
+            </visual>
+
+        </link>
+
+        <gazebo reference="${position}_${lowerarthrosis}_link">
+            <kp>${gazebo_kp}</kp>
+            <kd>${gazebo_kd}</kd>
+            <mu1>${gazebo_mu1}</mu1>
+            <mu2>${gazebo_mu2}</mu2>
+            <material>Gazebo/Blue</material>
+        </gazebo>
+
+        <!-- define lowerlimb lowerarthrosis joint -->
+
+        <joint name="${position}_lower${limb}_${lowerarthrosis}_link" type="revolute">
+
+            <parent link="${position}_lower${limb}_link"/>
+            <child link="${position}_${lowerarthrosis}_link"/>
+            <xacro:insert_block name="origin" />
+            <limit lower="-0.5" upper="0.5" effort="1.0" velocity="0.005"/>
+            <axis xyz="1 0 0"/>
+
+        </joint>
+    
+    </xacro:macro>
+
+    <!-- define hand part -->
+
+    <xacro:macro name="hand_part" params="position lowerarthrosis *origin">
+
+        <!-- define hand_link -->
+
+        <link name="${position}_hand_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 0.015"/>
+                <mass value="0.001"/>
+                <xacro:box_inertia mass="0.001" x="0.03" y="0.015" z="0.04"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0.015"/>
+                <geometry>
+                    <box size="0.03 0.015 0.04"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0.015"/>
+                <geometry>
+                    <box size="0.03 0.015 0.04"/>
+                </geometry>
+                <xacro:material_visual_red />
+            </visual>
+
+        </link>
+
+        <gazebo reference="${position}_hand_link">
+            <kp>${gazebo_kp}</kp>
+            <kd>${gazebo_kd}</kd>
+            <mu1>${gazebo_mu1}</mu1>
+            <mu2>${gazebo_mu2}</mu2>
+            <material>Gazebo/Red</material>
+        </gazebo>
+
+        <!-- define lowerarthrosis_hand_joint -->
+
+        <joint name="${position}_${lowerarthrosis}_hand_joint" type="revolute">
+
+            <parent link="${position}_${lowerarthrosis}_link"/>
+            <child link="${position}_hand_link"/>
+            <xacro:insert_block name="origin" />
+            <limit lower="-1.5" upper="1.5" effort="1.0" velocity="0.005"/>
+            <axis xyz="1 0 0"/>
+
+        </joint>
+
+    </xacro:macro>
+
+    <!-- define foot_part -->
+
+    <xacro:macro name="foot_part" params="position lowerarthrosis *origin">
+
+        <!-- define foot_link -->
+
+        <link name="${position}_foot_link">
+
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0.02 0"/>
+                <mass value="0.0015"/>
+                <xacro:box_inertia mass="0.0015" x="0.03" y="0.06" z="0.015"/>
+            </inertial>
+
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0.02 0"/>
+                <geometry>
+                    <box size="0.03 0.06 0.015"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0.02 0"/>
+                <geometry>
+                    <box size="0.03 0.06 0.015"/>
+                </geometry>
+                <xacro:material_visual_red />
+            </visual>
+
+        </link>
+
+        <gazebo reference="${position}_foot_link">
+            <kp>${gazebo_kp}</kp>
+            <kd>${gazebo_kd}</kd>
+            <mu1>${gazebo_mu1}</mu1>
+            <mu2>${gazebo_mu2}</mu2>
+            <material>Gazebo/Red</material>
+        </gazebo>
+
+        <!-- define lower arthrosis foot joint -->
+
+        <joint name="${position}_${lowerarthrosis}_foot_joint" type="revolute">
+            <parent link="${position}_${lowerarthrosis}_link"/>
+            <child link="${position}_foot_link"/>
+            <xacro:insert_block name="origin"/>
+            <limit lower="-0.4" upper="0.6" effort="1.0" velocity="0.005"/>
+            <axis xyz="0 0 1"/>
+        </joint>
+
+    </xacro:macro>
+
+    <!-- define left arm -->
+    
+    <xacro:macro name="left_arm_part" params="">
+
+        <!-- apply left shoulder up -->
+        <xacro:top_arthrosis_up_part position="left" toparthrosis="shoulder" parentlink="torso">
+            <origin xyz="0 0.05 0.07" rpy="0 1.57 0"/>
+        </xacro:top_arthrosis_up_part>
+
+        <!-- apply left shoulder forward -->
+        <xacro:top_arthrosis_forward_part position="left" toparthrosis="shoulder" lower_limit="-1.5" upper_limit="3">
+            <origin xyz="0.015 0.012 0" rpy="1.57 0 0"/>
+        </xacro:top_arthrosis_forward_part>
+
+        <!-- apply left upperarm -->
+        <xacro:upperlimb_part position="left" toparthrosis="shoulder" limb="arm" visual_z="0.04" limb_mag="0.01">
+            <origin xyz="0 0 0" rpy="0 1.57 0"/>
+        </xacro:upperlimb_part>
+
+        <!-- apply left elbow -->
+        <xacro:upper_arthrosis_part position="left" upperarthrosis="elbow" limb="arm" arth_size="0.01" lower_limit="-3" upper_limit="0">
+            <origin xyz="0 0 0.085" rpy="0 0 0"/>
+        </xacro:upper_arthrosis_part>
+
+        <!-- apply left lowerarm -->
+        <xacro:lowerlimb_part position="left" arthrosis="elbow" limb="arm" visual_z="0.04" limb_mag="0.01">
+            <origin xyz="0 0 0.005" rpy="0 0 0"/>
+        </xacro:lowerlimb_part>
+
+        <!-- apply left wrist -->
+        <xacro:lower_arthrosis_part position="left" lowerarthrosis="wrist" limb="arm">
+            <origin xyz="0 0 0.085" rpy="0 0 0"/>
+        </xacro:lower_arthrosis_part>
+
+        <!-- apply left hand -->
+        <xacro:hand_part position="left" lowerarthrosis="wrist">
+            <origin xyz="0 0 0.01" rpy="0 0 1.57"/>
+        </xacro:hand_part>
+
+    </xacro:macro>
+
+    <!-- define right arm -->
+
+    <xacro:macro name="right_arm_part" params="">
+
+        <!-- apply right shoulder up -->
+        <xacro:top_arthrosis_up_part position="right" toparthrosis="shoulder" parentlink="torso">
+            <origin xyz="0 -0.05 0.07" rpy="3.14 1.57 0"/>
+        </xacro:top_arthrosis_up_part>
+
+        <!-- apply right shoulder forward -->
+        <xacro:top_arthrosis_forward_part position="right" toparthrosis="shoulder" lower_limit="-1.5" upper_limit="3">
+            <origin xyz="0.015 0.012 0" rpy="-1.57 0 0"/>
+        </xacro:top_arthrosis_forward_part>
+
+        <!-- apply right upperarm -->
+        <xacro:upperlimb_part position="right" toparthrosis="shoulder" limb="arm" visual_z="-0.04" limb_mag="0.01">
+            <origin xyz="0 0 0" rpy="0 -1.57 0"/>
+        </xacro:upperlimb_part>
+
+        <!-- apply right elbow -->
+        <xacro:upper_arthrosis_part position="right" upperarthrosis="elbow" limb="arm" arth_size="0.01" lower_limit="-3" upper_limit="0">
+            <origin xyz="0 0 -0.085" rpy="0 3.14 0"/>
+        </xacro:upper_arthrosis_part>
+
+        <!-- apply right lowerarm -->
+        <xacro:lowerlimb_part position="right" arthrosis="elbow" limb="arm" visual_z="-0.04" limb_mag="0.01">
+            <origin xyz="0 0 0.005" rpy="0 3.14 0"/>
+        </xacro:lowerlimb_part>
+
+        <!-- apply right wrist -->
+        <xacro:lower_arthrosis_part position="right" lowerarthrosis="wrist" limb="arm">
+            <origin xyz="0 0 -0.085" rpy="0 3.14 0"/>
+        </xacro:lower_arthrosis_part>
+
+        <!-- apply right hand -->
+        <xacro:hand_part position="right" lowerarthrosis="wrist">
+            <origin xyz="0 0 0.01" rpy="0 0 -1.57"/>
+        </xacro:hand_part>
+
+    </xacro:macro>
+
+    <!-- define left leg -->
+
+    <xacro:macro name="left_leg_part" params="">
+
+        <!-- apply left hipball up -->
+        <xacro:top_arthrosis_up_part position="left" toparthrosis="hipball" parentlink="hip">
+            <origin xyz="0 0.015 -0.06" rpy="0 1.57 0"/>
+        </xacro:top_arthrosis_up_part>
+
+        <!-- apply left hipball forward -->
+        <xacro:top_arthrosis_forward_part position="left" toparthrosis="hipball" lower_limit="0" upper_limit="2">
+            <origin xyz="0.015 0.012 0" rpy="1.57 0 0"/>
+        </xacro:top_arthrosis_forward_part>
+
+        <!-- apply left upperleg -->
+        <xacro:upperlimb_part position="left" toparthrosis="hipball" limb="leg" visual_z="0.04" limb_mag="0.015">
+            <origin xyz="0 0 0" rpy="0 1.57 0"/>
+        </xacro:upperlimb_part>
+
+        <!-- apply left knee -->
+        <xacro:upper_arthrosis_part position="left" upperarthrosis="knee" limb="leg" arth_size="0.015" lower_limit="0" upper_limit="3">
+            <origin xyz="0 0 0.085" rpy="0 0 0"/>
+        </xacro:upper_arthrosis_part>
+
+        <!-- apply left lowerleg -->
+        <xacro:lowerlimb_part position="left" arthrosis="knee" limb="leg" visual_z="0.04" limb_mag="0.013">
+            <origin xyz="0 0 0.005" rpy="0 0 0"/>
+        </xacro:lowerlimb_part>
+
+        <!-- apply left ankle -->
+        <xacro:lower_arthrosis_part position="left" lowerarthrosis="ankle" limb="leg">
+            <origin xyz="0 0 0.085" rpy="0 0 0"/>
+        </xacro:lower_arthrosis_part>
+
+        <!-- define left foot -->
+        <xacro:foot_part position="left" lowerarthrosis="ankle">
+            <origin xyz="0 0 0.01" rpy="0 0 0"/>
+        </xacro:foot_part>
+
+
+    </xacro:macro>
+
+    <!-- define right leg -->
+
+    <xacro:macro name="right_leg_part" params="">
+
+        <!-- apply right hipball up -->
+        <xacro:top_arthrosis_up_part position="right" toparthrosis="hipball" parentlink="hip">
+            <origin xyz="0 -0.015 -0.06" rpy="3.14 1.57 0"/>
+        </xacro:top_arthrosis_up_part>
+
+        <!-- apply right hipball forward -->
+        <xacro:top_arthrosis_forward_part position="right" toparthrosis="hipball" lower_limit="0" upper_limit="2">
+            <origin xyz="0.015 0.012 0" rpy="-1.57 0 0"/>
+        </xacro:top_arthrosis_forward_part>
+
+        <!-- apply right upperleg -->
+        <xacro:upperlimb_part position="right" toparthrosis="hipball" limb="leg" visual_z="-0.04" limb_mag="0.015">
+            <origin xyz="0 0 0" rpy="0 -1.57 0"/>
+        </xacro:upperlimb_part>
+
+        <!-- apply right knee -->
+        <xacro:upper_arthrosis_part position="right" upperarthrosis="knee" limb="leg" arth_size="0.015" lower_limit="0" upper_limit="3">
+            <origin xyz="0 0 -0.085" rpy="0 3.14 0"/>
+        </xacro:upper_arthrosis_part>
+
+        <!-- apply right lowerleg -->
+        <xacro:lowerlimb_part position="right" arthrosis="knee" limb="leg" visual_z="-0.04" limb_mag="0.013">
+            <origin xyz="0 0 0.005" rpy="0 3.14 0"/>
+        </xacro:lowerlimb_part>
+
+        <!-- apply right ankle -->
+        <xacro:lower_arthrosis_part position="right" lowerarthrosis="ankle" limb="leg">
+            <origin xyz="0 0 -0.085" rpy="0 3.14 0"/>
+        </xacro:lower_arthrosis_part>
+
+        <!-- define right foot -->
+        <xacro:foot_part position="right" lowerarthrosis="ankle">
+            <origin xyz="0 0 0.01" rpy="0 3.14 0"/>
+        </xacro:foot_part>
+
+    </xacro:macro>
+
+    <!-- define whole body -->
+
+    <xacro:macro name="whole_humanbot" params="">
+
+        <!-- apply torso -->
+        <xacro:torso_part />
+
+        <!-- apply left arm -->
+        <xacro:left_arm_part />
+
+        <!-- apply right arm -->
+        <xacro:right_arm_part />
+
+        <!-- apply left_leg_part -->
+        <xacro:left_leg_part />
+
+        <!-- apply right_leg_part -->
+        <xacro:right_leg_part />
+
+    </xacro:macro>
+
+    <!-- apply whole body -->
+
+    <xacro:whole_humanbot />
+
+</robot>
